@@ -8,7 +8,7 @@ This is a project for a virtual dressing room application. It allows users to vi
 -   Users can upload a photo of themselves to the application or stand Infront of the camera to see how the clothes will look on them
 -   Users can select clothes from a pre-existing catalog or upload their own clothes to the application
 -   The application allows users to adjust the fit of the clothes to match their body shape and size
--   Users can view the clothes from different angles and positions in the 3D environment
+-   The project includes pose estimation, allowing users to wear the clothes regardless of their body position.
 
 ## Technologies Used
 
