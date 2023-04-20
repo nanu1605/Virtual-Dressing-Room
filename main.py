@@ -33,8 +33,8 @@ for fileName in fileList:
 
 def openphoto():
     global fileName
-    # C:/Users/sagpa/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
-    fileName = askopenfilename(initialdir='C:\\Users\\shash\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_color', title='Select image for analysis ',
+    # C:/Users/tanis/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
+    fileName = askopenfilename(initialdir='C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_color', title='Select image for analysis ',
                            filetypes=[('image files', '.jpg')])
     dst = "testpicture"
     print(fileName)
@@ -53,8 +53,8 @@ def openphoto():
 def inimage():
     global fileName1
     
-    # C:/Users/sagpa/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
-    fileName1 = askopenfilename(initialdir='C:\\Users\\shash\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_img', title='Select image for analysis ',
+    # C:/Users/tanis/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
+    fileName1 = askopenfilename(initialdir='C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_img', title='Select image for analysis ',
                            filetypes=[('image files', '.jpg')])
     dst = "testpicture2"
     print(fileName1)
@@ -72,92 +72,8 @@ def inimage():
     img2.place(x=500, y=20)
 
 def CLICK():
-    
-##    parser = argparse.ArgumentParser()
-##    parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
-##    parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
-##    parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
-##    parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
-##
-##    args = parser.parse_args()
-##    ##########################POSE DETETCTION############
-##    BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
-##                   "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
-##                   "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
-##                   "LEye": 15, "REar": 16, "LEar": 17, "Background": 18 }
-##
-##    POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElbow"],
-##                   ["RElbow", "RWrist"], ["LShoulder", "LElbow"], ["LElbow", "LWrist"],
-##                   ["Neck", "RHip"], ["RHip", "RKnee"], ["RKnee", "RAnkle"], ["Neck", "LHip"],
-##                   ["LHip", "LKnee"], ["LKnee", "LAnkle"], ["Neck", "Nose"], ["Nose", "REye"],
-##                   ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"] ]
-##
-##    inWidth = args.width
-##    inHeight = args.height
-##
-##    net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
-##
-##    cap = cv.VideoCapture(0)
-##    global count,a
-##    count=0
-##    while True:
-##        hasFrame, frame1 = cap.read()
-##        frame=frame1.copy()
-##        if not hasFrame:
-##            cv.waitKey()
-##            break
-##
-##        frameWidth = frame.shape[1]
-##        frameHeight = frame.shape[0]
-##        
-##        net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
-##        out = net.forward()
-##        out = out[:, :19, :, :]  # MobileNet output [1, 57, -1, -1], we only need the first 19 elements
-##
-##        assert(len(BODY_PARTS) == out.shape[1])
-##
-##        points = []
-##        for i in range(len(BODY_PARTS)):
-##            # Slice heatmap of corresponging body's part.
-##            heatMap = out[0, i, :, :]
-##
-##            # Originally, we try to find all the local maximums. To simplify a sample
-##            # we just find a global one. However only a single pose at the same time
-##            # could be detected this way.
-##            _, conf, _, point = cv.minMaxLoc(heatMap)
-##            x = (frameWidth * point[0]) / out.shape[3]
-##            y = (frameHeight * point[1]) / out.shape[2]
-##            # Add a point if it's confidence is higher than threshold.
-##            points.append((int(x), int(y)) if conf > args.thr else None)
-##
-##        for pair in POSE_PAIRS:
-##            partFrom = pair[0]
-##            partTo = pair[1]
-##            assert(partFrom in BODY_PARTS)
-##            assert(partTo in BODY_PARTS)
-##
-##            idFrom = BODY_PARTS[partFrom]
-##            idTo = BODY_PARTS[partTo]
-##
-##            if points[idFrom] and points[idTo]:
-##                cv.line(frame, points[idFrom], points[idTo], (0, 255, 0), 3)
-##                cv.ellipse(frame, points[idFrom], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
-##                cv.ellipse(frame, points[idTo], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
-##        count=count+1
-##        t, _ = net.getPerfProfile()
-##        freq = cv.getTickFrequency() / 1000
-##        cv.putText(frame, '%.2fms' % (t / freq), (10, 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
-##
-##        cv.imshow('OpenPose using OpenCV', frame)
-##        cv2.imwrite("test.jpg",frame1)
-##        if cv2.waitKey(100) == ord('r'):
-##            break
-##        if count>50:
-##            break
-##        
-    ####################################END OF POSE ESTIMATION####################    
-    parser = argparse.ArgumentParser(description='Use this script to run virtial try-on using CP-VTON', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
+    parser = argparse.ArgumentParser(description='Use this script to run virtial try-on using CP-VTON', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--input_image',  type=str, default=fileName1, help='Path to image with person.')
     parser.add_argument('--input_cloth', type=str, default=fileName, help='Path to target cloth image')
     parser.add_argument('--gmm_model', '-gmm', default='cp_vton_gmm.onnx', help='Path to Geometric Matching Module .onnx model.')
@@ -574,7 +490,7 @@ def CLICK():
             end = int(center_w + out_w // 2)
             person_img = person_img[:, start:end, :]
 
-        #cloth_img = cv.imread('C:\\Users\\shash\\Desktop\\VIRTUAL_TRIAL_ROOM_PES\\testpicture\\000020_1.jpg')#args.input_cloth)
+        #cloth_img = cv.imread('C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL_ROOM_PES\\testpicture\\000020_1.jpg')#args.input_cloth)
         cloth_img = cv.imread(fileName)#args.input_cloth)
         pose = get_pose_map(person_img, findFile(args.openpose_proto),
                             findFile(args.openpose_model), args.backend, args.target)
