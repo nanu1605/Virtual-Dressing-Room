@@ -33,7 +33,7 @@ for fileName in fileList:
 
 def openphoto():
     global fileName
-    # C:/Users/tanis/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
+    # C:/Users/tanis/Downloads/images is the location of the image which you want to test 
     fileName = askopenfilename(initialdir='C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_color', title='Select image for analysis ',
                            filetypes=[('image files', '.jpg')])
     dst = "testpicture"
@@ -53,7 +53,7 @@ def openphoto():
 def inimage():
     global fileName1
     
-    # C:/Users/tanis/Downloads/images is the location of the image which you want to test..... you can change it according to the image location you have  
+    # C:/Users/tanis/Downloads/images is the location of the image which you want to test  
     fileName1 = askopenfilename(initialdir='C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL _ROOM_PES\\test_img', title='Select image for analysis ',
                            filetypes=[('image files', '.jpg')])
     dst = "testpicture2"
@@ -98,11 +98,11 @@ def CLICK():
 
     def get_pose_map(image, proto_path, model_path, backend, target, height=256, width=192):
         radius = 5
-        inp = cv.dnn.blobFromImage(image, 1.0 / 255, (width, height))
+        inp = cv.dnn.blobFromImage(image, 1.0 / 255, (width, height)) #highlight dress from image
 
-        net = cv.dnn.readNet(proto_path, model_path)
-        net.setPreferableBackend(backend)
-        net.setPreferableTarget(target)
+        net = cv.dnn.readNet(proto_path, model_path) #concat frame
+        net.setPreferableBackend(backend) #dress image
+        net.setPreferableTarget(target) #target=person image
         net.setInput(inp)
         out = net.forward()
 
@@ -111,6 +111,7 @@ def CLICK():
         pose_map = np.zeros((height, width, out_c - 1))
         # last label: Background
         for i in range(0, out.shape[1] - 1):
+            #highighting the object and ignore the background
             heatMap = out[0, i, :, :]
             keypoint = np.full((height, width), -1)
             _, conf, _, point = cv.minMaxLoc(heatMap)
@@ -759,7 +760,7 @@ def start():
             res_shape = cv.dnn.blobFromImage(res_shape, 1.0 / 127.5, mean=(127.5, 127.5, 127.5), swapRB=True)
             res_shape = res_shape.squeeze(0)
 
-            agnostic = np.concatenate((res_shape, img_head, pose_map), axis=0)
+            agnostic = np.concatenate((res_shape, img_head, pose_map), axis=0) #dimenstion of the person cloth
             agnostic = np.expand_dims(agnostic, axis=0)
             return agnostic.astype(np.float32)
 
@@ -773,7 +774,7 @@ def start():
             grid = self._generate_grid(theta)
             warped_cloth = self._bilinear_sampler(cloth, grid).astype(np.float32)
             return warped_cloth
-        print("hiiiiiiiiii")
+        #print("hiiiiiiiiii")
 
         def get_tryon(self, agnostic, warp_cloth):
             inp = np.concatenate([agnostic, warp_cloth], axis=1)
@@ -1019,7 +1020,7 @@ def start():
             end = int(center_w + out_w // 2)
             person_img = person_img[:, start:end, :]
 
-        #cloth_img = cv.imread('C:\\Users\\shash\\Desktop\\VIRTUAL_TRIAL_ROOM_PES\\testpicture\\000020_1.jpg')#args.input_cloth)
+        #cloth_img = cv.imread('C:\\Users\\tanis\\Desktop\\VIRTUAL_TRIAL_ROOM_PES\\testpicture\\000020_1.jpg')#args.input_cloth)
         cloth_img = cv.imread(fileName)#args.input_cloth)
         pose = get_pose_map(person_img, findFile(args.openpose_proto),
                             findFile(args.openpose_model), args.backend, args.target)
@@ -1029,7 +1030,7 @@ def start():
         cv.dnn_registerLayer('Correlation', CorrelationLayer)
 
         model = CpVton(args.gmm_model, args.tom_model, args.backend, args.target)
-        agnostic = model.prepare_agnostic(segm_image, person_img, pose)
+        agnostic = model.prepare_agnostic(segm_image, person_img, pose) #dimenstion of the dress image is wearing
         warped_cloth = model.get_warped_cloth(cloth_img, agnostic)
         output = model.get_tryon(agnostic, warped_cloth)
         
