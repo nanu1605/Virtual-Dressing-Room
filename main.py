@@ -14,9 +14,7 @@ global fileName1,fileName2
 from PIL import Image, ImageTk
 backends = (cv.dnn.DNN_BACKEND_DEFAULT, cv.dnn.DNN_BACKEND_HALIDE, cv.dnn.DNN_BACKEND_INFERENCE_ENGINE, cv.dnn.DNN_BACKEND_OPENCV)
 targets = (cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_OPENCL, cv.dnn.DNN_TARGET_OPENCL_FP16, cv.dnn.DNN_TARGET_MYRIAD, cv.dnn.DNN_TARGET_HDDL)
-import cv2 as cv
-import numpy as np
-import argparse
+
 global a
 window = tk.Tk()
 
@@ -501,7 +499,7 @@ def CLICK():
         cv.dnn_registerLayer('Correlation', CorrelationLayer)
 
         model = CpVton(args.gmm_model, args.tom_model, args.backend, args.target)
-        agnostic = model.prepare_agnostic(segm_image, person_img, pose)
+        agnostic = model.prepare_agnostic(segm_image, person_img, pose)  #dimenstion of the dress image is wearing
         warped_cloth = model.get_warped_cloth(cloth_img, agnostic)
         output = model.get_tryon(agnostic, warped_cloth)
         
