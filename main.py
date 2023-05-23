@@ -102,10 +102,10 @@ def CLICK():
         net.setPreferableBackend(backend) #dress image
         net.setPreferableTarget(target) #target=person image
         net.setInput(inp)
-        out = net.forward()
+        out = net.forward()#all the data collected is stored
 
         threshold = 0.1
-        _, out_c, out_h, out_w = out.shape
+        _, out_c, out_h, out_w = out.shape#removing noice
         pose_map = np.zeros((height, width, out_c - 1))
         # last label: Background
         for i in range(0, out.shape[1] - 1):
@@ -120,7 +120,7 @@ def CLICK():
             pose_map[:, :, i] = keypoint
         pose_map = pose_map.transpose(2, 0, 1)
         return pose_map
-
+##################Implementation of GAN algorithm######################
     class BilinearFilter(object):
         """
         PIL bilinear resize implementation
@@ -493,10 +493,10 @@ def CLICK():
         cloth_img = cv.imread(fileName)#args.input_cloth)
         pose = get_pose_map(person_img, findFile(args.openpose_proto),
                             findFile(args.openpose_model), args.backend, args.target)
-        segm_image = parse_human(person_img, args.segmentation_model)
+        segm_image = parse_human(person_img, args.segmentation_model)#obtain a segmentation map of the person in the image
         segm_image = cv.resize(segm_image, (192, 256), cv.INTER_LINEAR)
 
-        cv.dnn_registerLayer('Correlation', CorrelationLayer)
+        cv.dnn_registerLayer('Correlation', CorrelationLayer)#correlation layer is used for tasks such as object detection or tracking.
 
         model = CpVton(args.gmm_model, args.tom_model, args.backend, args.target)
         agnostic = model.prepare_agnostic(segm_image, person_img, pose)  #dimenstion of the dress image is wearing
@@ -538,14 +538,14 @@ def start():
 
     inWidth = args.width
     inHeight = args.height
-
+#continuously captures frames from a webcam, performs pose estimation using the OpenPose model, and overlays the detected
     net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
 
-    cap = cv.VideoCapture(0)
+    cap = cv.VideoCapture(0)# access the webcam
     global count,a
     count=0
     while True:
-        hasFrame, frame1 = cap.read()
+        hasFrame, frame1 = cap.read()#read a frame from the webcam
         frame=frame1.copy()
         if not hasFrame:
             cv.waitKey()
@@ -554,7 +554,7 @@ def start():
         frameWidth = frame.shape[1]
         frameHeight = frame.shape[0]
         
-        net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
+        net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))# takes the frame as input, applies necessary transformations (such as resizing and normalization)
         out = net.forward()
         out = out[:, :19, :, :]  # MobileNet output [1, 57, -1, -1], we only need the first 19 elements
 
@@ -574,7 +574,7 @@ def start():
             # Add a point if it's confidence is higher than threshold.
             points.append((int(x), int(y)) if conf > args.thr else None)
 
-        for pair in POSE_PAIRS:
+        for pair in POSE_PAIRS:#both the source and target points exist in the points list
             partFrom = pair[0]
             partTo = pair[1]
             assert(partFrom in BODY_PARTS)
@@ -592,7 +592,7 @@ def start():
         freq = cv.getTickFrequency() / 1000
         cv.putText(frame, '%.2fms' % (t / freq), (10, 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
-        cv.imshow('OpenPose using OpenCV', frame)
+        cv.imshow('OpenPose using OpenCV', frame)#frame with overlays is displayed using
         cv2.imwrite("test.jpg",frame1)
         if cv2.waitKey(100) == ord('r'):
             break
@@ -1022,10 +1022,10 @@ def start():
         cloth_img = cv.imread(fileName)#args.input_cloth)
         pose = get_pose_map(person_img, findFile(args.openpose_proto),
                             findFile(args.openpose_model), args.backend, args.target)
-        segm_image = parse_human(person_img, args.segmentation_model)
+        segm_image = parse_human(person_img, args.segmentation_model)#obtain a segmentation map of the person in the image
         segm_image = cv.resize(segm_image, (192, 256), cv.INTER_LINEAR)
 
-        cv.dnn_registerLayer('Correlation', CorrelationLayer)
+        cv.dnn_registerLayer('Correlation', CorrelationLayer)#correlation layer is used for tasks such as object detection or tracking
 
         model = CpVton(args.gmm_model, args.tom_model, args.backend, args.target)
         agnostic = model.prepare_agnostic(segm_image, person_img, pose) #dimenstion of the dress image is wearing
